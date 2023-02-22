@@ -9,6 +9,7 @@ const config = {
 
 const pathSrc = path.resolve(__dirname, "src");
 const pathPixi = path.resolve(__dirname, "node_modules/pixi.js");
+console.log(pathPixi);
 
 const babelModules = [pathSrc, pathPixi];
 
@@ -22,7 +23,12 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env"],
+            overrides: [
+              {
+                test: ["./node_modules"],
+                sourceType: "unambiguous",
+              },
+            ],
           },
         },
       },
@@ -58,7 +64,14 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"],
   },
   stats: {
-    warnings: false,
+    warnings: true,
+    assets: true,
+    modules: false,
+    colors: true,
+    errors: true,
+    errorDetails: true,
+    performance: true,
+    timings: true,
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -66,9 +79,6 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin(config),
-    new webpack.ProvidePlugin({
-      PIXI: "pixi.js",
-    }),
   ],
   output: {
     filename: "main.js",

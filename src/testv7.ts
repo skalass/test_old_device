@@ -1,4 +1,4 @@
 import * as PIXI from "pixi.js";
 
-var app = new PIXI.Application();
+var app: any = new PIXI.Application();
 document.body.appendChild(app.view);
